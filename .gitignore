@@ -2,3 +2,4 @@
 java-utils/target/
 *.iml
 .idea/workspace.xml
+nowcoder/target/*
