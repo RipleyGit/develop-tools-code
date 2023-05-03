@@ -16,7 +16,7 @@ import java.util.Scanner;
     输出：
             woH era uoy ? i ma enif
  */
-public class 反转单词 {
+public class StringReverse {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
