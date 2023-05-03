@@ -1,2 +1,4 @@
 # 网上刷题记录：
 [反转单词](./src/main/java/site/bleem/nowcoder/StringReverse.java)
+[获取最大软件版本号](./src/main/java/site/bleem/nowcoder/VersionCompare.java)
+[真分数转斐波那契分数](./src/main/java/site/bleem/nowcoder/FibonacciScore.java)
