@@ -1,5 +1,6 @@
 package site.bleem.nowcoder;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -28,27 +29,34 @@ public class FibonacciScore {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String nextLine = scanner.nextLine();
-            String[] split = nextLine.split("/");
-            Integer a = Integer.valueOf(split[0]);
-            Integer b = Integer.valueOf(split[1]);
-            if (a > b || a < 1 || b < 2) {
-                break;
-            }
-            while (a != 1) {
-                int c = b / a + 1;
-                a = a - b % a;
-                b = b * c;
-                System.out.print("1/" + c + "+");
-                if (b % a == 0) {
-                    b = b / a;
-                    a = 1;
-                } else if (b % (a - 1) == 0) { //8/11 = 1/2+1/5+1/55+1/110
-                    System.out.print("1/" + b / (a - 1) + "+");
-                    break;
-                }
-            }
-            System.out.println("1/" + b);
+            String fibonacciScore = fibonacciScore(nextLine);
+            System.out.println(fibonacciScore);
         }
         scanner.close();
+    }
+
+    public static String fibonacciScore(String score) {
+        StringBuffer buffer = new StringBuffer();
+        String[] split = score.split("/");
+        Integer a = Integer.valueOf(split[0]);
+        Integer b = Integer.valueOf(split[1]);
+        if (a > b || a < 1 || b < 2) {
+            return buffer.toString();
+        }
+        while (a != 1) {
+            int c = b / a + 1;
+            a = a - b % a;
+            b = b * c;
+            buffer.append("1/" + c + "+");
+            if (b % a == 0) {
+                b = b / a;
+                a = 1;
+            } else if (b % (a - 1) == 0) { //8/11 = 1/2+1/5+1/55+1/110
+                buffer.append("1/" + b / (a - 1) + "+");
+                break;
+            }
+        }
+        buffer.append("1/" + b);
+        return buffer.toString();
     }
 }

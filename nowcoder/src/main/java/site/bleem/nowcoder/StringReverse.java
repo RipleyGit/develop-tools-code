@@ -1,6 +1,5 @@
 package site.bleem.nowcoder;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
