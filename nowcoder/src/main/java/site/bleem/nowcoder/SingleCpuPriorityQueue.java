@@ -53,7 +53,7 @@ public class SingleCpuPriorityQueue {
             ints[i] = list.get(i);
         }
         List<List<Integer>> executor = executor(ints);
-        List<String> collect = executor.stream().map(list -> String.join(" ", list.stream().map(m -> String.valueOf(m)).collect(Collectors.toList()))).collect(Collectors.toList());
+        List<String> collect = executor.stream().map(li -> String.join(" ", li.stream().map(m -> String.valueOf(m)).collect(Collectors.toList()))).collect(Collectors.toList());
         System.out.println(String.join("\n",collect));
         scanner.close();
     }
