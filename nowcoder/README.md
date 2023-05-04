@@ -5,3 +5,4 @@
 - [递增字符串](./src/main/java/site/bleem/nowcoder/IncreasingString.java)
 - [AI处理器组合](./src/main/java/site/bleem/nowcoder/AiCpuProcessor.java)
 - [租车骑绿岛](./src/main/java/site/bleem/nowcoder/CarRental.java)
+- [MVP之争](./src/main/java/site/bleem/nowcoder/TheWarOfMvp.java)
