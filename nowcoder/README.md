@@ -6,3 +6,4 @@
 - [AI处理器组合](./src/main/java/site/bleem/nowcoder/AiCpuProcessor.java)
 - [租车骑绿岛](./src/main/java/site/bleem/nowcoder/CarRental.java)
 - [MVP之争](./src/main/java/site/bleem/nowcoder/TheWarOfMvp.java)
+- [单核CPU任务调度](./src/main/java/site/bleem/nowcoder/SingleCpuPriorityQueue.java)
