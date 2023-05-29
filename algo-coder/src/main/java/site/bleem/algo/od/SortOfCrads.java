@@ -1,7 +1,9 @@
 package site.bleem.algo.od;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * 整理扑克牌
@@ -10,30 +12,40 @@ public class SortOfCrads {
 
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        List<Integer> list = new ArrayList<>();
-        while (scanner.hasNext()) {
-            if (scanner.hasNextInt()){
-                list.add(scanner.nextInt());
-            }else if ("".equals(scanner.nextLine())){
-                break;
-            }
-        }
-        String result = executor(list);
-        System.out.println(result);
-//        int[] array = new int[list.size()];
-//        for (int i = 0; i < list.size(); i++) {
-//            array[i] = list.get(i);
-//        }
-//        int[] executor = executor(array);
-//        for (int i = 0; i < executor.length; i++) {
-//            if (i != 0) {
-//                System.out.print(" ");
+//        Scanner scanner = new Scanner(System.in);
+//        List<Integer> list = new ArrayList<>();
+//        while (scanner.hasNext()) {
+//            if (scanner.hasNextInt()) {
+//                list.add(scanner.nextInt());
+//            } else if ("".equals(scanner.nextLine())) {
+//                break;
 //            }
-//            System.out.print(executor[i]);
 //        }
+//        String result = executor(list);
+//        System.out.println(result);
+
+        Scanner sc = new Scanner(System.in);
+        String stra = sc.nextLine();
+        String[] split = stra.split(" ");
+        List<Integer> splitList = new ArrayList<>();
+        for (int i = 0; i < split.length; i++) {
+            Integer integer = Integer.valueOf(split[i]);
+            splitList.add(integer);
+        }
+        String result = executor(splitList);
+        System.out.println(result);
     }
 
+    /**
+     * 解决思路：
+     * 1.先对扑克牌进行初始化，记录每个牌面有多少张牌；
+     * 2.进行从大到小排序，比较牌对数量，数量相同比较牌面大小；
+     * 3.王炸-》葫芦-》三张-》对子-》单张，优先堆葫芦（葫芦中的牌面尽可能大），再排对子，最后单张倒排；
+     * todo：堆出更多的葫芦是否比堆出更大的葫芦，更好
+     *
+     * @param list
+     * @return
+     */
     public static String executor(List<Integer> list) {
         Card[] temp = new Card[13];
         //牌初始化
@@ -70,7 +82,7 @@ public class SortOfCrads {
             if (card == null) continue;
             if (card.count == 4) {
                 kings.add(card);
-            }else if (card.count == 3) {
+            } else if (card.count == 3) {
                 three.add(card);
             } else if (card.count == 2) {
                 two.add(card);
@@ -95,7 +107,7 @@ public class SortOfCrads {
             for (int j = 0; j < 3; j++) {
                 result.add(String.valueOf(three.get(i).faces + 1));
             }
-            if (i + 1 == three.size()) { // 没有3张了，填入
+            if (i + 1 == three.size()) { // 没有下一个3张了，填入后面的对子
                 if (two.size() > 0) {
                     for (int j = 0; j < 2; j++) {
                         result.add(String.valueOf(two.get(0).faces + 1));
@@ -103,14 +115,16 @@ public class SortOfCrads {
                     two.remove(0);
                 }
             } else {
+                //判断下一个三张的牌面是否大于对子的牌面
                 if (three.get(i + 1).faces > two.get(0).faces) {
-                    // 需要拆分
+                    // 需要拆分，三张拆成 对子（堆入葫芦）+单张
                     one.add(new Card(three.get(i + 1).faces, 1));
                     for (int j = 0; j < 2; j++) {
                         result.add(String.valueOf(three.get(i + 1).faces + 1));
                     }
                     i++;
                 } else {
+                    //拼入对子形成葫芦
                     for (int j = 0; j < 2; j++) {
                         result.add(String.valueOf(two.get(0).faces + 1));
 
@@ -119,6 +133,7 @@ public class SortOfCrads {
                 }
             }
         }
+        //排对子
         for (Card card : two) {
             for (int j = 0; j < 2; j++) {
                 result.add(String.valueOf(card.faces + 1));
@@ -134,78 +149,6 @@ public class SortOfCrads {
             result.add(String.valueOf(card.faces + 1));
         }
         return String.join(" ", result);
-    }
-
-
-    /**
-     * @param list
-     * @return
-     */
-    public static int[] executor(int[] array) {
-        Arrays.sort(array);
-
-        //分组
-        HashMap<Integer, Integer> cardMap = new HashMap<>();
-        for (int i = 0; i < array.length; i++) {
-            Integer integer = array[i];
-            Integer count = 0;
-            if (cardMap.containsKey(integer)) {
-                count = cardMap.get(integer);
-            }
-            count++;
-
-            cardMap.put(integer, count);
-        }
-
-        ArrayList<Integer> kings = new ArrayList<>();
-        ArrayList<Integer> three = new ArrayList<>();
-        ArrayList<Integer> two = new ArrayList<>();
-        ArrayList<Integer> one = new ArrayList<>();
-
-        for (Map.Entry<Integer, Integer> entry : cardMap.entrySet()) {
-            if (entry.getValue() == 4) {
-                kings.add(entry.getKey());
-            } else if (entry.getValue() == 3) {
-                three.add(entry.getKey());
-            } else if (entry.getValue() == 2) {
-                two.add(entry.getKey());
-            } else {
-                one.add(entry.getKey());
-            }
-        }
-        int[] result = new int[array.length];
-        int length = 0;
-        List<Integer> collect = kings.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-        for (int i = 0; i < collect.size(); i++) {
-            result[length++] = collect.get(i);
-            result[length++] = collect.get(i);
-            result[length++] = collect.get(i);
-            result[length++] = collect.get(i);
-        }
-        //堆葫芦
-        List<Integer> threeSort = three.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-        for (int i = 0; i < threeSort.size(); i++) {
-            result[length++] = threeSort.get(i);
-            result[length++] = threeSort.get(i);
-            if ((i + 1) % 2 == 0) {
-                one.add(threeSort.get(i));
-            } else {
-                result[length++] = threeSort.get(i);
-            }
-        }
-        //堆葫芦
-        List<Integer> twoSort = two.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-        for (int i = 0; i < twoSort.size(); i++) {
-            result[length++] = twoSort.get(i);
-            result[length++] = twoSort.get(i);
-        }
-        //堆葫芦
-        List<Integer> oneSort = one.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-        for (int i = 0; i < oneSort.size(); i++) {
-            result[length++] = oneSort.get(i);
-        }
-
-        return result;
     }
 
 
