@@ -2,29 +2,31 @@ package site.bleem.algo.od;
 
 import org.junit.Test;
 
+/**
+ * 华为OD技术1面，手撕代码
+ */
+public class TheTechnicalInterviewOne {
 
-public class RemoteControlledCar {
-
-    public static String remoteControlledCar(String command){
+    public static String remoteControlledCar(String command) {
         int x = 0;
         int y = 0;
         int fangx = 0;
         for (int i = 0; i < command.length(); i++) {
             String charAt = String.valueOf(command.charAt(i));
             int i1 = fangx % 4;
-            if (i1 == 0){
+            if (i1 == 0) {
                 fangx = 0;
             }
-            switch (charAt){
-                case "G":
-                {
-                    switch (i1){
+            switch (charAt) {
+                case "G": {
+                    switch (i1) {
                         case 0:
                             y++;
                             break;
                         case 1:
                         case -3:
-                            x++;break;
+                            x++;
+                            break;
                         case 2:
                         case -2:
                             y--;
@@ -36,18 +38,19 @@ public class RemoteControlledCar {
                         default:
                     }
                 }
-                    break;
+                break;
                 case "L":
-                    fangx --;
+                    fangx--;
                     break;
                 case "R":
-                    fangx ++;
+                    fangx++;
                     break;
                 default:
             }
         }
-        return "("+x+","+y+")";
+        return "(" + x + "," + y + ")";
     }
+
     /**
      * 假设在平面直角坐标系（上北-Y轴正方向，下南-Y轴负方向，左西-X轴负方向，右东-X轴正方向）上，一个遥控小车最初位于原点 (0, 0) 处，且面朝北方。
      * 遥控小车可以接受下列三条指令之一：
@@ -66,7 +69,7 @@ public class RemoteControlledCar {
      * (0,2)
      */
     @Test
-    public void remoteControlledCarTest(){
+    public void remoteControlledCarTest() {
         System.out.println(remoteControlledCar("GLGLGLG"));
         System.out.println(remoteControlledCar("GRGRGRG"));
     }
